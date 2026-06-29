@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Closet Online - Inicio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+</head>
+<body>
+   <header>
+    <nav class="main-nav">
+        <!-- 1. Logo -->
+        <a href="index.html" class="logo">MI <span>CLOSET ONLINE</span></a>
+
+       <div class="buscador-container">
+    <input type="text" placeholder="¿Qué prenda buscas hoy?..." id="input-busqueda">
+    <button id="btn-buscar"><i class="fas fa-search"></i></button>
+</div>
+
+        <!-- 3. Menú de Links -->
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="#categorias">Categorías</a></li>
+            <li><a href="sobre-mi.html">Sobre mí</a></li>
+            <li>
+                <a href="https://www.instagram.com/closet_sale_by_zari/" class="menu-insta" target="_blank">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+    <h2 class="section-title" id="categorias">Nuestras <span>Categorías</span></h2>
+    
+    <div class="categories-grid">
+        <a href="zapatos.html" class="category-card">
+            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=800');"></div>
+            <div class="card-overlay"></div>
+            <div class="card-content"><h3>Zapatos</h3><span class="btn-link">VER COLECCIÓN</span></div>
+        </a>
+        <a href="vestidos.html" class="category-card">
+            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=800');"></div>
+            <div class="card-overlay"></div>
+            <div class="card-content"><h3>Vestidos</h3><span class="btn-link">VER COLECCIÓN</span></div>
+        <!-- Tarjeta: Blusas -->
+<a href="blusas.html" class="category-card">
+    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1551163943-3f6a855d1153?q=80&w=800&auto=format&fit=crop');"></div>
+    <div class="card-overlay"></div>
+    <div class="card-content">
+        <h3>Blusas</h3>
+        <span class="btn-link">VER COLECCIÓN</span>
+    </div>
+</a>
+        </a>
+        <a href="shorts.html" class="category-card">
+            <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800');"></div>
+            <div class="card-overlay"></div>
+            <div class="card-content"><h3>Shorts</h3><span class="btn-link">VER COLECCIÓN</span></div>
+        </a>
+        <!-- Tarjeta: Conjuntos -->
+<a href="conjuntos.html" class="category-card">
+    <!-- Imagen de un conjunto de moda -->
+    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=800&auto=format&fit=crop');"></div>
+    <div class="card-overlay"></div>
+    <div class="card-content">
+        <h3>Conjuntos</h3>
+        <span class="btn-link">VER COLECCIÓN</span>
+    </div>
+</a>
+<!-- Tarjeta: Enaguas -->
+<!-- Busca la tarjeta de Enaguas y deja la línea de la imagen así: -->
+<a href="enaguas.html" class="category-card">
+    <div class="card-image" style="background-image: url(https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=500);"></div>
+    <div class="card-overlay"></div>
+    <div class="card-content">
+        <h3>Enaguas</h3>
+        <span class="btn-link">VER COLECCIÓN</span>
+    </div>
+</a>
+    </div>
+    <script>
+    const inputBusqueda = document.getElementById('input-busqueda');
+    const btnBuscar = document.getElementById('btn-buscar');
+
+    // Función para realizar la búsqueda
+    function realizarBusqueda() {
+        const termino = inputBusqueda.value.toLowerCase().trim();
+
+        if (termino === "") {
+            alert("Por favor, escribe algo para buscar.");
+            return;
+        }
+
+        // Diccionario de páginas según lo que escriban
+        if (termino.includes("botas") || termino.includes("tacones") || termino.includes("sandalias")) {
+            window.location.href = "zapatos.html";
+        } 
+        else if (termino.includes("vestido") || termino.includes("boda") || termino.includes("fiesta")) {
+            window.location.href = "vestidos.html";
+        } 
+        else if (termino.includes("blusa") || termino.includes("top") || termino.includes("camisa")) {
+            window.location.href = "blusas.html";
+        } 
+        else if (termino.includes("short") || termino.includes("pantalón corto")) {
+            window.location.href = "shorts.html";
+        } 
+        else if (termino.includes("conjunto") || termino.includes("set")) {
+            window.location.href = "conjuntos.html";
+        } 
+        else if (termino.includes("enagua") || termino.includes("falda")) {
+            window.location.href = "enaguas.html";
+        } 
+        else if (termino.includes("Dueña") || termino.includes("Zaribel") || termino.includes("contacto")) {
+            window.location.href = "sobre-mi.html";
+        } 
+        
+        else {
+            alert("Lo sentimos, no encontramos resultados para: " + termino + ". Intenta con 'vestidos', 'zapatos' o 'blusas'.");
+        }
+    }
+
+    // Escuchar el clic en la lupa
+    btnBuscar.addEventListener('click', realizarBusqueda);
+
+    // Escuchar cuando presionan la tecla "Enter"
+    inputBusqueda.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            realizarBusqueda();
+        }
+    });
+</script>
+</body>
+<a href="https://wa.me/50661017807?text=Hola!%20Vengo%20de%20la%20página%20web%20y%20tengo%20una%20consulta" class="btn-whatsapp" target="_blank">
+    <!-- Usaremos un icono de internet para que no tengas que descargar nada -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+</a>
+</html>
