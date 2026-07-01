@@ -221,28 +221,119 @@ body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333
 }
 /* --- FIX DEFINITIVO PARA QUE NADA SE HAGA GIGANTE --- */
 
-/* 1. Aplicamos a todas las mallas de productos */
+/* =======================================================
+   ESTILO FINAL Y ÚNICO PARA TODOS LOS PRODUCTOS
+   ======================================================= */
+
+/* 1. La Malla (El contenedor que pone las cosas a la par) */
 .productos-grid {
     display: grid !important;
-    /* auto-fill evita que los productos se estiren si hay pocos */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    /* En Computadora: 3 columnas iguales */
+    grid-template-columns: repeat(3, 1fr) !important;
     gap: 30px !important;
-    justify-content: center !important; /* Centra los productos si hay solo 1 o 2 */
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 20px !important;
+    max-width: 1100px !important;
+    margin: 40px auto !important;
+    padding: 0 20px !important;
+    justify-items: center !important;
 }
 
-/* 2. El freno para cada tarjeta de producto */
+/* 2. La Tarjeta (Cada prenda) */
 .product-card {
-    max-width: 320px !important; /* Nunca medirán más de esto */
+    display: flex !important;
+    flex-direction: column !important;
+    background: #fff !important;
+    border-radius: 15px !important;
+    padding: 15px !important;
+    border: 1px solid #eee !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
     width: 100% !important;
-    margin: 0 auto !important; /* Las mantiene centradas en su columna */
+    max-width: 300px !important; /* Evita que se haga gigante */
+    text-align: center !important;
 }
 
-/* 3. Aseguramos que las fotos no pierdan su forma */
+/* 3. La Foto (Todas iguales) */
 .product-card img {
     width: 100% !important;
-    height: 380px !important; 
+    height: 380px !important;
     object-fit: cover !important;
+    border-radius: 10px !important;
+    margin-bottom: 15px !important;
+}
+
+/* 4. Celulares (2 por fila) */
+@media (max-width: 800px) {
+    .productos-grid {
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 a la par */
+        gap: 15px !important;
+        padding: 0 10px !important;
+    }
+    
+    .product-card {
+        max-width: 100% !important;
+    }
+
+    .product-card img {
+        height: 250px !important; /* Foto más baja para celular */
+    }
+}
+
+/* 5. Celulares muy pequeños (1 por fila para que no se amontone) */
+@media (max-width: 450px) {
+    .productos-grid {
+        grid-template-columns: 1fr !important; /* 1 por fila */
+    }
+}
+/* --- REGRESAR FOTO SOBRE MÍ A TAMAÑO NORMAL --- */
+
+.about-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 60px 10%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Contenedor de la imagen */
+.about-image {
+    flex: 0 0 350px; /* Esto obliga a que la caja mida 350px (tamaño normal) */
+    position: relative;
+}
+
+/* La foto propiamente */
+.about-image img {
+    width: 100% !important;      /* Ocupa el 100% de los 350px */
+    max-width: 350px !important; /* No permite que crezca más de eso */
+    height: auto !important;     /* Para que no se estire hacia abajo */
+    border-radius: 20px;
+    display: block;
+    box-shadow: 15px 15px 40px rgba(0,0,0,0.1);
+    z-index: 2;
+    position: relative;
+}
+
+/* El marco rosa de atrás */
+.photo-frame {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 20px;
+    opacity: 0.15;
+    z-index: 1;
+}
+
+/* Ajuste para celular */
+@media (max-width: 768px) {
+    .about-section {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about-image {
+        flex: 0 0 auto;
+        width: 250px; /* Más pequeña aún en celular */
+    }
 }
