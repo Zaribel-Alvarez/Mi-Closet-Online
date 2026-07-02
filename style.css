@@ -1,5 +1,5 @@
 /* =========================================
-   1. VARIABLES Y RESET
+   1. VARIABLES, FUENTES Y RESET
    ========================================= */
 :root {
     --primary-color: #d81b60; /* Rosa Boutique */
@@ -10,10 +10,10 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333; }
+body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333; overflow-x: hidden; }
 
 /* =========================================
-   2. BARRA DE NAVEGACIÓN Y BUSCADOR
+   2. NAVEGACIÓN (Header)
    ========================================= */
 .main-nav {
     display: flex;
@@ -30,26 +30,31 @@ body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333
 .logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; text-decoration: none; color: var(--dark); }
 .logo span { color: var(--primary-color); }
 
+/* Buscador Moderno */
 .buscador-container {
     display: flex;
     align-items: center;
     background-color: #f5f5f5;
     padding: 8px 20px;
     border-radius: 30px;
-    width: 35%;
-    max-width: 500px;
+    width: 30%;
+    max-width: 400px;
     border: 1px solid #ddd;
 }
-
 .buscador-container input { border: none; background: transparent; outline: none; width: 100%; font-size: 14px; }
-.buscador-container button { background: none; border: none; color: var(--primary-color); cursor: pointer; font-size: 16px; }
+.buscador-container button { background: none; border: none; color: var(--primary-color); cursor: pointer; }
 
+/* Links y Redes */
 .nav-links { display: flex; list-style: none; gap: 20px; align-items: center; }
 .nav-links a { text-decoration: none; color: #555; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); }
 .nav-links a:hover { color: var(--primary-color); }
 
+.social-icons-menu { display: flex; align-items: center; gap: 15px; margin-left: 10px; }
+.icon-nav { color: var(--primary-color) !important; font-size: 1.4rem; text-decoration: none; transition: 0.3s; }
+.icon-nav:hover { color: #000 !important; transform: scale(1.1); }
+
 /* =========================================
-   3. CATEGORÍAS (PORTADA)
+   3. PORTADA (Cuadros de Categorías)
    ========================================= */
 .section-title { text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 40px 0; }
 .section-title span { color: var(--primary-color); }
@@ -70,166 +75,23 @@ body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333
     overflow: hidden; 
     display: flex; 
     align-items: flex-end; 
-    justify-content: center; 
     text-decoration: none; 
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
 }
 
 .card-image { position: absolute; width: 100%; height: 100%; background-size: cover; background-position: center; transition: var(--transition); }
 .category-card:hover .card-image { transform: scale(1.05); }
-.card-overlay { position: absolute; width: 100%; height: 100%; background: linear-gradient(to top, rgba(216, 27, 96, 0.7) 0%, transparent 70%); }
-/* --- TEXTOS DENTRO DE LAS 6 CATEGORÍAS (Home) --- */
-.card-content {
-    position: relative;
-    z-index: 2;         /* Para que el texto esté sobre la foto */
-    color: #ffffff;
-    padding-bottom: 40px;
-    text-align: center;
-    width: 100%;
-}
+.card-overlay { position: absolute; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 70%); }
 
-.card-content h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;   /* Nombre de la categoría grande */
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.3); /* Sombra para que se lea mejor */
-}
-
-.btn-link {
-    font-size: 0.75rem;
-    color: #ffffff;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border-bottom: 1px solid #fff; /* La rayita blanca de abajo */
-    padding-bottom: 5px;
-    transition: 0.3s;
-}
-
-.category-card:hover .btn-link {
-    background: rgba(255, 255, 255, 0.2); /* Efecto al pasar el mouse */
-    padding-left: 10px;
-    padding-right: 10px;
-}
-/* =========================================
-   4. GRID DE PRODUCTOS (Blusas, Shorts, etc)
-   ========================================= */
-.productos-grid {
-    display: grid;
-    /* Esto evita que se hagan gigantes cuando sobran espacios */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto 60px;
-    padding: 0 20px;
-    justify-content: center;
-}
-
-.product-card {
-    background: #fff;
-    border-radius: 15px;
-    padding: 15px;
-    border: 1px solid #eee;
-    text-align: center;
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-}
-
-.product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-
-.product-card img { 
-    width: 100%; 
-    height: 380px; 
-    object-fit: cover; 
-    border-radius: 10px; 
-}
-
-.product-info { padding: 15px 5px; }
-.price { color: var(--primary-color); font-weight: 700; font-size: 1.3rem; display: block; margin: 10px 0; }
-
-.buy-btn { 
-    background: var(--dark); 
-    color: #fff; 
-    border: none; 
-    padding: 12px; 
-    width: 100%; 
-    border-radius: 25px; 
-    cursor: pointer; 
-    text-decoration: none;
-    display: block;
-    transition: 0.3s; 
-    font-size: 0.9rem;
-}
-
-.buy-btn:hover { background: var(--primary-color); }
+.card-content { position: relative; z-index: 2; color: #fff; padding-bottom: 30px; text-align: center; width: 100%; }
+.card-content h3 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 5px; }
+.btn-link { font-size: 0.7rem; letter-spacing: 2px; border-bottom: 1px solid #fff; padding-bottom: 3px; color: #fff; text-decoration: none; }
 
 /* =========================================
-   5. BOTONES FLOTANTES Y REDES
+   4. PRODUCTOS (Blusas, Vestidos, etc.)
    ========================================= */
-.btn-whatsapp {
-    position: fixed; bottom: 20px; right: 20px;
-    width: 60px; height: 60px;
-    background-color: #25d366; color: #fff;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 30px; text-decoration: none; z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s;
-}
-
-.btn-whatsapp:hover { transform: scale(1.1); background-color: #128c7e; }
-
-.insta-solo-btn {
-    background-color: var(--primary-color); color: white !important;
-    width: 35px; height: 35px; border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    text-decoration: none; font-size: 18px; transition: 0.3s;
-}
-
-.insta-solo-btn:hover { background-color: #000; transform: scale(1.1); }
-
-/* =========================================
-   6. RESPONSIVE (MÓVIL)
-   ========================================= */
-
-/* Tablets y Celulares grandes */
-@media (max-width: 900px) {
-    .buscador-container { width: 50%; }
-    .main-nav { padding: 15px 3%; }
-}
-
-/* Celulares (2 POR FILA) */
-@media (max-width: 600px) {
-    .buscador-container { display: none; } /* Ocultamos buscador en móvil para dar espacio */
-    
-    .section-title { font-size: 1.8rem; }
-
-    .productos-grid {
-        grid-template-columns: repeat(2, 1fr) !important; /* FORZAMOS 2 COLUMNAS */
-        gap: 12px !important;
-        padding: 0 10px !important;
-    }
-
-    .product-card { padding: 8px !important; }
-    .product-card img { height: 200px !important; }
-    
-    .product-info h3 { font-size: 0.9rem; }
-    .price { font-size: 1rem; }
-    .buy-btn { font-size: 0.7rem; padding: 10px 5px; }
-    
-    .nav-links { gap: 10px; }
-    .nav-links a { font-size: 0.7rem; }
-}
-/* --- FIX DEFINITIVO PARA QUE NADA SE HAGA GIGANTE --- */
-
-/* =======================================================
-   ESTILO FINAL Y ÚNICO PARA TODOS LOS PRODUCTOS
-   ======================================================= */
-
-/* 1. La Malla (El contenedor que pone las cosas a la par) */
 .productos-grid {
     display: grid !important;
-    /* En Computadora: 3 columnas iguales */
-    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* 3 columnas en PC */
     gap: 30px !important;
     max-width: 1100px !important;
     margin: 40px auto !important;
@@ -237,7 +99,6 @@ body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333
     justify-items: center !important;
 }
 
-/* 2. La Tarjeta (Cada prenda) */
 .product-card {
     display: flex !important;
     flex-direction: column !important;
@@ -247,116 +108,50 @@ body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333
     border: 1px solid #eee !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
     width: 100% !important;
-    max-width: 300px !important; /* Evita que se haga gigante */
+    max-width: 320px !important; /* Freno para que no sean gigantes */
     text-align: center !important;
 }
 
-/* 3. La Foto (Todas iguales) */
 .product-card img {
     width: 100% !important;
-    height: 380px !important;
+    height: 380px !important; /* Altura fija para todas las fotos */
     object-fit: cover !important;
     border-radius: 10px !important;
     margin-bottom: 15px !important;
 }
 
-/* 4. Celulares (2 por fila) */
-@media (max-width: 800px) {
-    .productos-grid {
-        grid-template-columns: repeat(2, 1fr) !important; /* 2 a la par */
-        gap: 15px !important;
-        padding: 0 10px !important;
-    }
-    
-    .product-card {
-        max-width: 100% !important;
-    }
+.product-info h3 { font-size: 1.1rem; color: #1a1a1a; margin-bottom: 5px; font-weight: 600; }
+.price { color: var(--primary-color); font-weight: 700; font-size: 1.3rem; margin-bottom: 15px; display: block; }
 
-    .product-card img {
-        height: 250px !important; /* Foto más baja para celular */
-    }
+.buy-btn { 
+    background: var(--dark); color: #fff; padding: 12px; border-radius: 25px; 
+    text-decoration: none; display: block; transition: 0.3s; font-size: 0.9rem;
 }
+.buy-btn:hover { background: var(--primary-color); }
 
-/* 5. Celulares muy pequeños (1 por fila para que no se amontone) */
-@media (max-width: 450px) {
-    .productos-grid {
-        grid-template-columns: 1fr !important; /* 1 por fila */
-    }
-}
-/* --- REGRESAR FOTO SOBRE MÍ A TAMAÑO NORMAL --- */
+/* =========================================
+   5. SECCIÓN SOBRE MÍ
+   ========================================= */
+.about-section { display: flex; align-items: center; justify-content: center; gap: 50px; padding: 60px 10%; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
+.about-image { flex: 0 0 350px; position: relative; }
+.about-image img { width: 100% !important; max-width: 350px !important; height: auto !important; border-radius: 20px; z-index: 2; position: relative; box-shadow: 15px 15px 40px rgba(0,0,0,0.1); }
+.photo-frame { position: absolute; top: -15px; left: -15px; width: 100%; height: 100%; background: var(--primary-color); border-radius: 20px; opacity: 0.15; z-index: 1; }
+.about-text { flex: 1; min-width: 300px; }
 
-.about-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-    padding: 60px 10%;
-    max-width: 1200px;
-    margin: 0 auto;
+/* =========================================
+   6. RESPONSIVE (Móvil)
+   ========================================= */
+@media (max-width: 850px) {
+    .buscador-container { display: none; } /* Ocultar buscador para espacio */
+    .productos-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
+    .product-card img { height: 250px !important; }
 }
 
-/* Contenedor de la imagen */
-.about-image {
-    flex: 0 0 350px; /* Esto obliga a que la caja mida 350px (tamaño normal) */
-    position: relative;
-}
-
-/* La foto propiamente */
-.about-image img {
-    width: 100% !important;      /* Ocupa el 100% de los 350px */
-    max-width: 350px !important; /* No permite que crezca más de eso */
-    height: auto !important;     /* Para que no se estire hacia abajo */
-    border-radius: 20px;
-    display: block;
-    box-shadow: 15px 15px 40px rgba(0,0,0,0.1);
-    z-index: 2;
-    position: relative;
-}
-
-/* Ajuste para celular */
-@media (max-width: 768px) {
-    .about-section {
-        flex-direction: column;
-        text-align: center;
-    }
-    .about-image {
-        flex: 0 0 auto;
-        width: 250px; /* Más pequeña aún en celular */
-    }
-}
-/* --- ICONOS SOCIALES --- */
-.social-icons-menu {
-    display: flex;
-    align-items: center;
-    gap: 15px;      
-    margin-left: 20px;
-}
-
-.icon-nav {
-    background: none !important;      
-    color: var(--primary-color) !important; 
-    font-size: 1.5rem;                
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Efecto al pasar el mouse */
-.icon-nav:hover {
-    color: #000 !important;           
-    transform: scale(1.1);            
-}
-
-/* Ajuste para que en el celular no se vean gigantes */
-@media (max-width: 600px) {
-    .icon-nav {
-        font-size: 1.2rem;
-        gap: 10px;
-    }
-}
-/* Ocultar el botón flotante de WhatsApp en todas las páginas */
-.btn-whatsapp {
-    display: none !important;
+@media (max-width: 480px) {
+    .section-title { font-size: 1.8rem; }
+    .about-image { flex: 0 0 280px; }
+    .productos-grid { gap: 10px !important; padding: 0 10px !important; }
+    .product-card { padding: 10px !important; }
+    .product-card img { height: 200px !important; }
+    .product-info h3 { font-size: 0.9rem; }
 }
