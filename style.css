@@ -313,19 +313,6 @@ body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333
     position: relative;
 }
 
-/* El marco rosa de atrás */
-.photo-frame {
-    position: absolute;
-    top: -15px;
-    left: -15px;
-    width: 100%;
-    height: 100%;
-    background: var(--primary-color);
-    border-radius: 20px;
-    opacity: 0.15;
-    z-index: 1;
-}
-
 /* Ajuste para celular */
 @media (max-width: 768px) {
     .about-section {
@@ -336,4 +323,40 @@ body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333
         flex: 0 0 auto;
         width: 250px; /* Más pequeña aún en celular */
     }
+}
+/* --- ICONOS SOCIALES --- */
+.social-icons-menu {
+    display: flex;
+    align-items: center;
+    gap: 15px;      
+    margin-left: 20px;
+}
+
+.icon-nav {
+    background: none !important;      
+    color: var(--primary-color) !important; 
+    font-size: 1.5rem;                
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Efecto al pasar el mouse */
+.icon-nav:hover {
+    color: #000 !important;           
+    transform: scale(1.1);            
+}
+
+/* Ajuste para que en el celular no se vean gigantes */
+@media (max-width: 600px) {
+    .icon-nav {
+        font-size: 1.2rem;
+        gap: 10px;
+    }
+}
+/* Ocultar el botón flotante de WhatsApp en todas las páginas */
+.btn-whatsapp {
+    display: none !important;
 }

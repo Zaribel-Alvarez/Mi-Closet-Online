@@ -5,16 +5,36 @@
     <title>Conjuntos - Mi Boutique</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <nav class="main-nav">
-        <a href="index.html" class="logo">MI <span>CLOSET ONLINE</span></a>
-        <ul class="nav-links">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="index.html#categorias">Categorías</a></li>
-            <li><a href="sobre-mi.html">Sobre mí</a></li>
-        </ul>
-    </nav>
+   <nav class="main-nav">
+    <!-- Logo -->
+    <a href="index.html" class="logo">MI <span>CLOSET ONLINE</span></a>
+
+    <!-- Buscador -->
+    <div class="buscador-container">
+        <input type="text" placeholder="¿Qué prenda buscas hoy?..." id="input-busqueda">
+        <button id="btn-buscar"><i class="fas fa-search"></i></button>
+    </div>
+
+    <!-- Links y Redes -->
+    <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html#categorias">Categorías</a></li>
+        <li><a href="sobre-mi.html">Sobre mí</a></li>
+        
+        <!-- Los nuevos iconos limpios -->
+        <div class="social-icons-menu">
+            <a href="https://www.instagram.com/tu_usuario" class="icon-nav" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://wa.me/50661017807" class="icon-nav" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+    </ul>
+</nav>
 
     <h2 class="section-title">Nuestros <span>Conjuntos</span></h2>
 
