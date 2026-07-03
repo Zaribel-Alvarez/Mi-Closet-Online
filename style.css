@@ -155,3 +155,23 @@ body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333
     .product-card img { height: 200px !important; }
     .product-info h3 { font-size: 0.9rem; }
 }
+/* --- EFECTO DE MOVIMIENTO EN PRODUCTOS --- */
+
+.product-card {
+    /* Esta línea es vital para que el movimiento sea suave y no de un brinco */
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+    cursor: pointer;
+}
+
+/* Lo que pasa cuando el mouse está encima de la tarjeta */
+.product-card:hover {
+    transform: translateY(-10px); /* La prenda sube 10 píxeles */
+    box-shadow: 0 15px 30px rgba(216, 27, 96, 0.2) !important; /* Agrega una sombra rosa suave */
+}
+
+/* Efecto de Zoom en la foto */
+.product-card img {
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover i
