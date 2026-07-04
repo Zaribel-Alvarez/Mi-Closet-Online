@@ -33,17 +33,66 @@
     </ul>
 </nav>
 
-    <h2 class="section-title">Nuestros <span>Zapatos</span><h2>
- <div class="productos-grid">      
-        
-        <!--ZAPATO 1-->
-        <div class="product-card">
-            <img src="zapatos1.jpeg" alt="Zapatos">
-            <div class="product-info">
-                <h3>Zapato #1</h3>
-                <span class="price">₡12.000</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20el%20Zapato%20de%20la%20foto%201" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!--CIERRE ZAPATO 1-->
-    </div>
-</body>
-</html>   
+<h2 class="section-title">Nuestros<span>Zapatos</span></h2>
+
+<!-- El contenedor donde aparecerán los zapatos del Excel -->
+<div id="contenedor-productos" class="productos-grid">
+    <p>Conectando con el inventario...</p>
+</div>
+
+<script>
+    // 1. RECUERDA: Este link debe ser el que termina en output=csv
+    const URL_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSvb3K5GJjg7cCr_okiBgdrquV96ghTw6Tjk0nxO2bY54Zo0SKI98fUGPWfputKzrVne5o8rD0SvVxK/pub?output=csv";
+
+    async function cargarZapatos() {
+        try {
+            const respuesta = await fetch(URL_CSV);
+            const datos = await respuesta.text();
+            
+            // Dividimos el texto en filas y quitamos la primera (títulos)
+            const filas = datos.split('\n').slice(1); 
+            const contenedor = document.getElementById('contenedor-productos');
+            contenedor.innerHTML = ""; 
+
+            filas.forEach(fila => {
+                // Esta línea separa las columnas correctamente aunque tengan comas dentro
+                const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+                if (columnas.length >= 4) {
+                    const nombre = columnas[0].replace(/"/g, "").trim();
+                    const precio = columnas[1].replace(/"/g, "").trim();
+                    const imagen = columnas[2].replace(/"/g, "").trim();
+                    const categoria = columnas[3].replace(/"/g, "").trim().toLowerCase();
+                    const linkWA = columnas[4] ? columnas[4].replace(/"/g, "").trim() : "#";
+
+                    // FILTRO: Solo si la categoría en el Excel dice "Zapato"
+                    if (categoria.includes("zapato")) {
+                        contenedor.innerHTML += `
+                            <div class="product-card">
+                                <img src="${imagen}" alt="${nombre}">
+                                <div class="product-info">
+                                    <h3>${nombre}</h3>
+                                    <span class="price">${precio}</span>
+                                    <a href="${linkWA}" class="buy-btn" target="_blank">
+                                        Consultar por WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            });
+
+            // Si después de buscar no hay nada, avisamos
+            if (contenedor.innerHTML === "") {
+                contenedor.innerHTML = "<p>No hay zapatos disponibles en este momento.</p>";
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('contenedor-productos').innerHTML = "Error al cargar los productos.";
+        }
+    }
+
+    cargarZapatos();
+</script>
