@@ -22,7 +22,6 @@
         <li><a href="index.html#categorias">Categorías</a></li>
         <li><a href="sobre-mi.html">Sobre mí</a></li>
         
-        <!-- Los nuevos iconos limpios -->
         <div class="social-icons-menu">
             <a href="https://www.instagram.com/tu_usuario" class="icon-nav" target="_blank">
                 <i class="fab fa-instagram"></i>
@@ -35,47 +34,68 @@
 </nav>
 
     <h2 class="section-title">Nuestros <span>Shorts</span></h2> 
-<div class="productos-grid"> 
-    
-    <!-- SHORT 1 -->
-        <div class="product-card">
-            <img src="short1.jpeg" alt="Short 1">
-            <div class="product-info">
-                <h3>Short #1</h3>
-                <span class="price">₡3.000</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20el%20Short%20de%20la%20foto%201" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!-- CIERRE SHORT 1 -->
-    </div>
 
-     <!-- SHORT 2 -->
-        <div class="product-card">
-            <img src="short1.jpeg" alt="Short 1">
-            <div class="product-info">
-                <h3>Short #2</h3>
-                <span class="price">₡3.000</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20el%20Short%20de%20la%20foto%202" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!-- CIERRE SHORT 2 -->
-    </div>
+    <!-- El contenedor que JavaScript llenará con el Excel -->
+<div id="contenedor-productos" class="productos-grid">
+    <p>Buscando los shorts más cómodos para ti...</p>
+</div>
 
-        <!-- SHORT 3 -->
-        <div class="product-card">
-            <img src="short3.jpeg" alt="Short 3">
-            <div class="product-info">
-                <h3>Short  #3</h3>
-                <span class="price">₡3.500</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20el%20Short%20de%20la%20foto%203" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-            </a>
-        </div>
-    </div> <!-- CIERRE SHORT 3 -->
+<script>
+    // 1. PEGA AQUÍ TU MISMO LINK DE GOOGLE SHEETS (output=csv)
+    const URL_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSvb3K5GJjg7cCr_okiBgdrquV96ghTw6Tjk0nxO2bY54Zo0SKI98fUGPWfputKzrVne5o8rD0SvVxK/pub?output=csv";
 
-         <!-- SHORT 4 -->
-        <div class="product-card">
-            <img src="short4.jpeg" alt="Short 4">
-            <div class="product-info">
-                <h3>Short  #4</h3>
-                <span class="price">₡3.500</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20el%20Short%20de%20la%20foto%204" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div><!-- CIERRE SHORT 4 -->
-    </div> 
+    async function cargarShorts() {
+        try {
+            const respuesta = await fetch(URL_CSV);
+            const datos = await respuesta.text();
+            
+            const filas = datos.split('\n').slice(1); 
+            const contenedor = document.getElementById('contenedor-productos');
+            contenedor.innerHTML = ""; 
+
+            let contador = 0;
+
+            filas.forEach(fila => {
+                const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+                if (columnas.length >= 4) {
+                    const nombre = columnas[0].replace(/"/g, "").trim();
+                    const precio = columnas[1].replace(/"/g, "").trim();
+                    const imagen = columnas[2].replace(/"/g, "").trim();
+                    const categoria = columnas[3].replace(/"/g, "").trim().toLowerCase();
+                    const linkWA = columnas[4] ? columnas[4].replace(/"/g, "").trim() : "#";
+
+                    // FILTRO: Solo mostramos lo que diga "Short"
+                    if (categoria.includes("short")) {
+                        contador++;
+                        contenedor.innerHTML += `
+                            <div class="product-card">
+                                <img src="${imagen}" alt="${nombre}">
+                                <div class="product-info">
+                                    <h3>${nombre}</h3>
+                                    <span class="price">${precio}</span>
+                                    <a href="${linkWA}" class="buy-btn" target="_blank">
+                                        Consultar por WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            });
+
+            if (contador === 0) {
+                contenedor.innerHTML = "<p>Estamos preparando nuevos shorts. ¡Vuelve pronto!</p>";
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('contenedor-productos').innerHTML = "No pudimos cargar el inventario.";
+        }
+    }
+
+    cargarShorts();
+</script>
+
 </body>
 </html>
