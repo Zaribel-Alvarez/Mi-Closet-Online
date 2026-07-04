@@ -35,75 +35,67 @@
 
     <h2 class="section-title">Nuestras <span>Blusas</span></h2>
     
-    <div class="productos-grid">
-        <!-- BLUSA 1 -->
-        <div class="product-card">
-            <img src="blusa1.jpeg" alt="Blusa ">
-            <div class="product-info">
-                <h3>Blusa #1</h3> 
-                <span class="price">₡3.500</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20la%20Blusa%20de%20la%20foto%201%20(₡3.500)" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!--CIERRE BLUSA 1-->
-    </div>
+   <!-- El contenedor que JavaScript llenará solito -->
+<div id="contenedor-productos" class="productos-grid">
+    <p>Cargando colección de blusas...</p>
+</div>
 
-         <!-- BLUSA 2 -->
-         <div class="product-card">
-            <img src="blusa2.jpeg" alt="Blusa 2">
-            <div class="product-info">
-                <h3>Blusa #2 </h3>
-                <span class="price">₡3.500</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20la%20Blusa%20de%20la%20foto%202%20(₡3.500)" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!--CIERRE BLUSA 2-->
-    </div>
+<script>
+    // 1. PEGA AQUÍ EL MISMO LINK DE GOOGLE SHEETS QUE USASTE EN ZAPATOS
+    const URL_CSV = "TU_LINK_DE_GOOGLE_AQUI_QUE_TERMINA_EN_output=csv";
 
-         <!-- BLUSA 3 -->
-        <div class="product-card">
-            <img src="blusa3.jpeg" alt="Blusa 3">
-            <div class="product-info">
-                <h3>Blusa #3 </h3>
-                <span class="price">₡3.500</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20la%20Blusa%20de%20la%20foto%203%20(₡3.500)" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!--CIERRE BLUSA 3-->
-    </div>
+    async function cargarBlusas() {
+        try {
+            const respuesta = await fetch(URL_CSV);
+            const datos = await respuesta.text();
+            
+            const filas = datos.split('\n').slice(1); 
+            const contenedor = document.getElementById('contenedor-productos');
+            contenedor.innerHTML = ""; 
 
-    <!-- BLUSA 4 -->
-        <div class="product-card">
-            <img src="blusa4.jpeg" alt="Blusa 4">
-            <div class="product-info">
-                <h3>Blusa #4 </h3>
-                <span class="price">₡3.500</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20la%20Blusa%20de%20la%20foto%204%20(₡3.500)" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!--CIERRE BLUSA 4-->
-    </div>
+            let contador = 0;
 
-        <!-- BLUSA 5 -->
-        <div class="product-card">
-            <img src="blusa5.jpeg" alt="Blusa 5">
-            <div class="product-info">
-                <h3>Blusa #5 </h3>
-                <span class="price">₡3.500</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20la%20Blusa%20de%20la%20foto%205%20(₡3.500)" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!--CIERRE BLUSA 5-->
-    </div>
+            filas.forEach(fila => {
+                const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 
-        <!-- BLUSA 6 -->
-        <div class="product-card">
-            <img src="blusa6.jpeg" alt="Blusa 6">
-            <div class="product-info">
-                <h3>Blusa #6 </h3>
-                <span class="price">₡3.500</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20la%20Blusa%20de%20la%20foto%206%20(₡3.500)" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!--CIERRE BLUSA 6-->
-    </div>
+                if (columnas.length >= 4) {
+                    const nombre = columnas[0].replace(/"/g, "").trim();
+                    const precio = columnas[1].replace(/"/g, "").trim();
+                    const imagen = columnas[2].replace(/"/g, "").trim();
+                    const categoria = columnas[3].replace(/"/g, "").trim().toLowerCase();
+                    const linkWA = columnas[4] ? columnas[4].replace(/"/g, "").trim() : "#";
 
-         <!-- BLUSA 7 -->
-         <div class="product-card">
-            <img src="blusa7.jpeg" alt="Blusa 7">
-            <div class="product-info">
-                <h3>Blusa #7</h3>
-                <span class="price">₡3.500</span>
-            <a href="https://wa.me/50661017807?text=Hola!%20Estoy%20interesada%20en%20la%20blusa%20de%20la%20foto%207" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!--CIERRE BLUSA 7-->
-    </div>
+                    // FILTRO MÁGICO: Aquí solo buscamos "blusa"
+                    if (categoria.includes("blusa")) {
+                        contador++;
+                        contenedor.innerHTML += `
+                            <div class="product-card">
+                                <img src="${imagen}" alt="${nombre}">
+                                <div class="product-info">
+                                    <h3>${nombre}</h3>
+                                    <span class="price">${precio}</span>
+                                    <a href="${linkWA}" class="buy-btn" target="_blank">
+                                        Consultar por WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            });
+
+            if (contador === 0) {
+                contenedor.innerHTML = "<p>Muy pronto tendremos nuevas blusas disponibles.</p>";
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('contenedor-productos').innerHTML = "Error al conectar con el inventario.";
+        }
+    }
+
+    cargarBlusas();
+</script>
+
 </body>
 </html>

@@ -34,65 +34,51 @@
 
     <h2 class="section-title">Nuestra <span>Ropa Deportiva</span></h2>
 
-    <div class="productos-grid">
-       
-        <!-- ROPA DEPORTIVA 1 -->
-        <div class="product-card">
-            <img src="ropadeportiva1.jpeg" alt="Ropa Deportiva">
-            <div class="product-info">
-                <h3>Ropa Deportiva #1</h3>
-                <span class="price">₡3.000</span>
-                <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20La%20Ropa%20Deportiva%20de%20la%20foto%201" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-            </div> <!--CIERRE Ropa Deportiva 1-->
-        </div> 
+   <div id="contenedor-productos" class="productos-grid">
+        <p>Cargando lo mejor para entrenar...</p>
+    </div>
 
-          <!-- ROPA DEPORTIVA 2 -->
-        <div class="product-card">
-            <img src="ropadeportiva2.jpeg" alt="Ropa Deportiva">
-            <div class="product-info">
-                <h3>Ropa Deportiva #2</h3>
-                <span class="price">₡3.000</span>
-                <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20La%20Ropa%20Deportiva%20de%20la%20foto%202" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-            </div> <!--CIERRE Ropa Deportiva 2-->
-        </div> 
-         <!-- ROPA DEPORTIVA 3 -->
-        <div class="product-card">
-            <img src="ropadeportiva3.jpeg" alt="Ropa Deportiva">
-            <div class="product-info">
-                <h3>Ropa Deportiva #3</h3>
-                <span class="price">₡3.000</span>
-                <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20La%20Ropa%20Deportiva%20de%20la%20foto%203" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-            </div> <!--CIERRE Ropa Deportiva 3-->
-        </div> 
-          <!-- ROPA DEPORTIVA 4 -->
-        <div class="product-card">
-            <img src="ropadeportiva4.jpeg" alt="Ropa Deportiva">
-            <div class="product-info">
-                <h3>Ropa Deportiva #4</h3>
-                <span class="price">₡3.000</span>
-                <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20La%20Ropa%20Deportiva%20de%20la%20foto%204" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-            </div> <!--CIERRE Ropa Deportiva 4-->
-        </div> 
-          <!-- ROPA DEPORTIVA 5 -->
-        <div class="product-card">
-            <img src="ropadeportiva5.jpeg" alt="Ropa Deportiva">
-            <div class="product-info">
-                <h3>Ropa Deportiva #5</h3>
-                <span class="price">₡3.000</span>
-                <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20La%20Ropa%20Deportiva%20de%20la%20foto%205" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-            </div> <!--CIERRE Ropa Deportiva 5-->
-        </div> 
-          <!-- ROPA DEPORTIVA 6 -->
-        <div class="product-card">
-            <img src="ropadeportiva6.jpeg" alt="Ropa Deportiva">
-            <div class="product-info">
-                <h3>Ropa Deportiva #6</h3>
-                <span class="price">₡3.000</span>
-                <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20La%20Ropa%20Deportiva%20de%20la%20foto%206" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-            </div> <!--CIERRE Ropa Deportiva 6-->
-        </div> 
+    <script>
+        const URL_CSV = "TU_LINK_DE_GOOGLE_AQUI_output=csv";
 
+        async function cargarDeportiva() {
+            try {
+                const respuesta = await fetch(URL_CSV);
+                const datos = await respuesta.text();
+                const filas = datos.split('\n').slice(1); 
+                const contenedor = document.getElementById('contenedor-productos');
+                contenedor.innerHTML = ""; 
 
+                let contador = 0;
+                filas.forEach(fila => {
+                    const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    if (columnas.length >= 4) {
+                        const nombre = columnas[0].replace(/"/g, "").trim();
+                        const precio = columnas[1].replace(/"/g, "").trim();
+                        const imagen = columnas[2].replace(/"/g, "").trim();
+                        const categoria = columnas[3].replace(/"/g, "").trim().toLowerCase();
+                        const linkWA = columnas[4] ? columnas[4].replace(/"/g, "").trim() : "#";
+
+                        // FILTRO: Buscamos "deportiva" o "gym"
+                        if (categoria.includes("deportiva") || categoria.includes("gym")) {
+                            contador++;
+                            contenedor.innerHTML += `
+                                <div class="product-card">
+                                    <img src="${imagen}" alt="${nombre}">
+                                    <div class="product-info">
+                                        <h3>${nombre}</h3>
+                                        <span class="price">${precio}</span>
+                                        <a href="${linkWA}" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
+                                    </div>
+                                </div>`;
+                        }
+                    }
+                });
+                if (contador === 0) { contenedor.innerHTML = "<p>Nuevos sets deportivos próximamente.</p>"; }
+            } catch (error) { console.error("Error:", error); }
+        }
+        cargarDeportiva();
+    </script>
 
 </body>
 </html>

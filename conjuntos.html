@@ -35,14 +35,66 @@
 
     <h2 class="section-title">Nuestros <span>Conjuntos</span></h2>
 
-          <!-- CONJUNTO 1 -->
-         <div class="product-card">
-            <img src="conjunto1.jpeg" alt="Conjunto">
-            <div class="product-info">
-                <h3>Conjunto</h3>
-                <span class="price">₡3.500</span>
-             <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20el%20producto%20de%20la%20foto%201" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-        </div> <!--CIERRE CONJUNTO 1-->
-    </div>
+       <div id="contenedor-productos" class="productos-grid">
+    <p>Buscando los mejores sets para ti...</p>
+</div>
+
+<script>
+    // 1. PEGA AQUÍ TU MISMO LINK DE GOOGLE SHEETS (output=csv)
+    const URL_CSV = "TU_LINK_DE_GOOGLE_AQUI_QUE_TERMINA_EN_output=csv";
+
+    async function cargarConjuntos() {
+        try {
+            const respuesta = await fetch(URL_CSV);
+            const datos = await respuesta.text();
+            
+            const filas = datos.split('\n').slice(1); 
+            const contenedor = document.getElementById('contenedor-productos');
+            contenedor.innerHTML = ""; 
+
+            let contador = 0;
+
+            filas.forEach(fila => {
+                const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+                if (columnas.length >= 4) {
+                    const nombre = columnas[0].replace(/"/g, "").trim();
+                    const precio = columnas[1].replace(/"/g, "").trim();
+                    const imagen = columnas[2].replace(/"/g, "").trim();
+                    const categoria = columnas[3].replace(/"/g, "").trim().toLowerCase();
+                    const linkWA = columnas[4] ? columnas[4].replace(/"/g, "").trim() : "#";
+
+                    // FILTRO: Solo mostramos lo que diga "Conjunto"
+                    if (categoria.includes("conjunto")) {
+                        contador++;
+                        contenedor.innerHTML += `
+                            <div class="product-card">
+                                <img src="${imagen}" alt="${nombre}">
+                                <div class="product-info">
+                                    <h3>${nombre}</h3>
+                                    <span class="price">${precio}</span>
+                                    <a href="${linkWA}" class="buy-btn" target="_blank">
+                                        Consultar por WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            });
+
+            if (contador === 0) {
+                contenedor.innerHTML = "<p>Nuevos conjuntos disponibles muy pronto. ¡Mantente atenta!</p>";
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('contenedor-productos').innerHTML = "No pudimos conectar con el inventario.";
+        }
+    }
+
+    cargarConjuntos();
+</script>
+
 </body>
 </html>

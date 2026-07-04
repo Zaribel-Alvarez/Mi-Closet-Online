@@ -34,17 +34,67 @@
 
     <h2 class="section-title">Nuestros <span>Trajes De Baño</span></h2>
 
-    <div class="productos-grid">
-       
-        <!-- TRAJE DE BAÑO 1 -->
-        <div class="product-card">
-            <img src="trajebano1.jpeg" alt="Traje de Baño">
-            <div class="product-info">
-                <h3>Traje de Baño #1</h3>
-                <span class="price">₡3.000</span>
-                <a href="https://wa.me/50661017807?text=Hola!%20Me%20interesa%20el%20producto%20de%20la%20foto%20#" class="buy-btn" target="_blank">Consultar por WhatsApp</a>
-            </div> <!--CIERRE TRAJE DE BAÑO 1-->
-        </div> 
+   <!-- El contenedor que JavaScript llenará con el Excel -->
+<div id="contenedor-productos" class="productos-grid">
+    <p>Buscando los mejores estilos de playa para ti...</p>
+</div>
+
+<script>
+    // 1. PEGA AQUÍ TU MISMO LINK DE GOOGLE SHEETS (output=csv)
+    const URL_CSV = "TU_LINK_DE_GOOGLE_AQUI_QUE_TERMINA_EN_output=csv";
+
+    async function cargarTrajes() {
+        try {
+            const respuesta = await fetch(URL_CSV);
+            const datos = await respuesta.text();
+            
+            const filas = datos.split('\n').slice(1); 
+            const contenedor = document.getElementById('contenedor-productos');
+            contenedor.innerHTML = ""; 
+
+            let contador = 0;
+
+            filas.forEach(fila => {
+                const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+                if (columnas.length >= 4) {
+                    const nombre = columnas[0].replace(/"/g, "").trim();
+                    const precio = columnas[1].replace(/"/g, "").trim();
+                    const imagen = columnas[2].replace(/"/g, "").trim();
+                    const categoria = columnas[3].replace(/"/g, "").trim().toLowerCase();
+                    const linkWA = columnas[4] ? columnas[4].replace(/"/g, "").trim() : "#";
+
+                    // FILTRO: Buscamos la palabra "baño" o "baño"
+                    if (categoria.includes("baño") || categoria.includes("bano")) {
+                        contador++;
+                        contenedor.innerHTML += `
+                            <div class="product-card">
+                                <img src="${imagen}" alt="${nombre}">
+                                <div class="product-info">
+                                    <h3>${nombre}</h3>
+                                    <span class="price">${precio}</span>
+                                    <a href="${linkWA}" class="buy-btn" target="_blank">
+                                        Consultar por WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            });
+
+            if (contador === 0) {
+                contenedor.innerHTML = "<p>¡Pronto tendremos nuevos modelos para este verano!</p>";
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('contenedor-productos').innerHTML = "No pudimos conectar con el inventario.";
+        }
+    }
+
+    cargarTrajes();
+</script>
 
 </body>
 </html>
