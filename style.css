@@ -1,6 +1,4 @@
-/* =========================================
-   1. VARIABLES, FUENTES Y RESET
-   ========================================= */
+
 :root {
     --primary-color: #d81b60; /* Rosa Boutique */
     --dark: #1a1a1a;
@@ -268,4 +266,21 @@ body { font-family: 'Poppins', sans-serif; background: var(--white); color: #333
     border-top: 1px solid rgba(0,0,0,0.05);
     color: #999;
     font-size: 0.8rem;
+}
+/* Esto evita que cualquier contenido (como la foto de sobre mí) empuje las paredes de la web */
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; 
+}
+
+.about-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;  
+    max-width: 1000px;
+    margin: 0 auto;
 }
