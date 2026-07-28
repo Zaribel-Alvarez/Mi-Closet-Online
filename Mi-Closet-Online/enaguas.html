@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Enaguas - Mi Boutique</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <nav class="main-nav">
+    <!-- Logo -->
+    <a href="index.html" class="logo">MI <span>CLOSET ONLINE</span></a>
+
+    <!-- Buscador -->
+    <div class="buscador-container">
+        <input type="text" placeholder="¿Qué prenda buscas hoy?..." id="input-busqueda">
+        <button id="btn-buscar"><i class="fas fa-search"></i></button>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html#categorias">Categorías</a></li>
+        <li><a href="sobre-mi.html">Sobre mí</a></li>
+        
+        <div class="social-icons-menu">
+            <a href="https://www.instagram.com/tu_usuario" class="icon-nav" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://wa.me/50661017807" class="icon-nav" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+    </ul>
+</nav>
+
+    <h2 class="section-title">Nuestras <span>Enaguas</span></h2>
+
+<!-- El contenedor que JavaScript llenará con el Excel -->
+<div id="contenedor-productos" class="productos-grid">
+    <p>Cargando las mejores enaguas para ti...</p>
+</div>
+
+<script>
+    // 1. PEGA AQUÍ TU MISMO LINK DE GOOGLE SHEETS (el que termina en output=csv)
+    const URL_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSvb3K5GJjg7cCr_okiBgdrquV96ghTw6Tjk0nxO2bY54Zo0SKI98fUGPWfputKzrVne5o8rD0SvVxK/pub?output=csv";
+
+    async function cargarEnaguas() {
+        try {
+            const respuesta = await fetch(URL_CSV);
+            const datos = await respuesta.text();
+            
+            const filas = datos.split('\n').slice(1); 
+            const contenedor = document.getElementById('contenedor-productos');
+            contenedor.innerHTML = ""; 
+
+            let contador = 0;
+
+            filas.forEach(fila => {
+                const columnas = fila.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+                if (columnas.length >= 4) {
+                    const nombre = columnas[0].replace(/"/g, "").trim();
+                    const precio = columnas[1].replace(/"/g, "").trim();
+                    const imagen = columnas[2].replace(/"/g, "").trim();
+                    const categoria = columnas[3].replace(/"/g, "").trim().toLowerCase();
+                    const linkWA = columnas[4] ? columnas[4].replace(/"/g, "").trim() : "#";
+
+                    // FILTRO: Solo mostramos lo que diga "Enagua"
+                    if (categoria.includes("enagua")) {
+                        contador++;
+                        contenedor.innerHTML += `
+                            <div class="product-card">
+                                <img src="${imagen}" alt="${nombre}">
+                                <div class="product-info">
+                                    <h3>${nombre}</h3>
+                                    <span class="price">${precio}</span>
+                                    <a href="${linkWA}" class="buy-btn" target="_blank">
+                                        Consultar por WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+            });
+
+            if (contador === 0) {
+                contenedor.innerHTML = "<p>Nuevas enaguas en camino. ¡Vuelve pronto!</p>";
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('contenedor-productos').innerHTML = "No pudimos cargar el inventario.";
+        }
+    }
+
+    cargarEnaguas();
+</script>
+
+</body>
+</html>
